@@ -1,0 +1,175 @@
+.container {
+    width: 100%;
+    max-width: 720px;
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.header h2 {
+    font-size: 24px;
+    margin: 0 0 8px;
+    color: var(--color-text);
+}
+
+.header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    gap: 8px;
+}
+
+.field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: white;
+    color: var(--color-primary);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.actions button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.actions button:disabled {
+    background-color: #93b4f5;
+    color: #ffffff;
+
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.actions button:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+.actions button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 3px;
+}
+
+.buttonSpinner {
+    display: inline-block;
+
+    width: 14px;
+    height: 14px;
+
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    animation: girarBotao 0.8s linear infinite;
+}
+
+.actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+@keyframes girarBotao {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .form {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+    }
+
+    .link {
+        min-width: 0;
+        padding: 12px 6px;
+
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.4;
+        white-space: normal;
+    }
+
+    .form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .field {
+        min-width: 0;
+        grid-column: 1 / -1;
+    }
+
+    .field input {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .actions {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: stretch;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+}
+

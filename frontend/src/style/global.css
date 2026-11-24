@@ -1,0 +1,27 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+
+    --color-primary: #202127;
+    --color-secondary: #35363d;
+
+    --color-background: white;
+    --color-text: #202127;
+
+    --sidebar-width: 240px;
+}
+
+html, body, #root {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-width: 320px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+button, input, textarea, select {
+    font: inherit;
+}

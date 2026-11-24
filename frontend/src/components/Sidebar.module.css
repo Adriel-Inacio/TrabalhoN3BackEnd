@@ -1,0 +1,123 @@
+.sidebar {
+  background-color: var(--color-primary);
+  height: 100%;
+  position: sticky;
+  top: 0;
+  border-right: 1px solid #383838;
+}
+
+.active {
+    transition: 0.3s ease;
+    background-color: var(--color-secondary);
+    color: white;
+    font-weight: 600;
+}
+
+.active .linkText {
+    transform: translateX(30px);
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+}
+
+.nav .title {
+  color: white;
+  padding-left: 20px;
+}
+
+.link {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  padding: 20px;
+
+  
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.linkText{
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.link:hover .linkText{
+  transform: translateX(30px);
+}
+
+.mobileHeader {
+  display: block;
+}
+
+.menuButton {
+  display: none;
+
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: fit-content;
+    align-self: start;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #383838;
+  }
+
+  .nav {
+    padding-top: 0;
+  }
+
+  .mobileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+  }
+
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: transparent;
+    color: white;
+
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .menuButton:hover {
+    background-color: var(--color-secondary);
+  }
+
+  .link {
+    display:none;
+    padding: 16px 20px;
+  }
+
+  .link.menuOpen {
+    display: block;
+  }
+
+  .active .linkText,
+  .link:hover .linkText {
+    transform: translateX(0);
+  }
+}.identity { color: #fff; display: flex; flex-direction: column; gap: 5px; padding: 14px 20px; border-bottom: 1px solid #50515a; overflow-wrap: anywhere; }
+.identity span { color: #c5c7d0; font-size: 12px; }
+.logout { border: none; text-align: left; font: inherit; cursor: pointer; width: 100%; background: transparent; }
+@media (max-width: 768px) { .identity { display: none; } .logout { display: none; } .logout.menuOpen { display: block; } }

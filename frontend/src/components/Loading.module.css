@@ -1,0 +1,48 @@
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+}
+
+.spinner {
+    display: inline-block;
+
+    width: 22px;
+    height: 22px;
+
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    animation: girar 0.8s linear infinite;
+}
+
+.mensagem {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spinner {
+        animation: girar 2s linear infinite;
+    }
+}

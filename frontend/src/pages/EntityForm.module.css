@@ -1,0 +1,232 @@
+.container {
+  width: 100%;
+  max-width: 850px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  color: var(--color-text);
+}
+
+.header p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.field label {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  background: white;
+  color: var(--color-primary);
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.field small {
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.actions {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions button,
+.addButton,
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.actions button:hover:not(:disabled),
+.addButton:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.actions button:disabled,
+.addButton:disabled,
+.removeButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.addButton {
+  background: white;
+  color: #2563eb;
+}
+
+.addButton:hover:not(:disabled) {
+  background: #eff6ff;
+}
+
+.removeButton {
+  background: white;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.removeButton:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+.loading {
+  margin-bottom: 16px;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(115px, 0.6fr) auto;
+  align-items: end;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.itemRow .field {
+  min-width: 0;
+}
+
+.summary {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  color: #1e40af;
+}
+
+.summary strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.summary p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.unsaved {
+  margin-right: auto;
+  color: #92400e;
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .itemRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .actions button,
+  .itemRow button,
+  .items .addButton {
+    width: 100%;
+  }
+
+  .unsaved {
+    margin-right: 0;
+  }
+}
