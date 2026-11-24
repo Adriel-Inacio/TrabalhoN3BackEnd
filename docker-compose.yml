@@ -1,44 +1,101 @@
-# Nome do projeto Compose. Sem ele, o Docker usa o nome da pasta e dois projetos
-# com a mesma pasta acabariam dividindo o mesmo volume de dados.
-# TROQUE "projeto-final" pelo nome do projeto do grupo (minúsculo, com hífen).
-name: culturapass
+name: culturapass_n3
 
-# Define os serviços que serão executados pelo Docker Compose.
 services:
-  # Declara o serviço do banco de dados da aplicação.
-  postgres:
-    # Usa uma imagem leve do PostgreSQL 16, a mesma das Aulas 08 e 09.
-    image: postgres:16-alpine
-    # Define um nome fixo para localizar o container facilmente.
-    container_name: culturapass-postgres
-    # Define as variáveis que o PostgreSQL lê na primeira inicialização.
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
     environment:
-      # Cria o banco lógico usado pela aplicação.
-      POSTGRES_DB: projeto
-      # Cria o usuário dono do banco.
-      POSTGRES_USER: projeto
-      # Define a senha do usuário do banco (valor local, só para desenvolvimento).
-      POSTGRES_PASSWORD: projeto
-    # Publica a porta interna do banco no computador host.
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      # Usa 5437 no host para não conflitar com os bancos das Aulas 08 e 09 (5433 a 5436).
-      - "5437:5432"
-    # Guarda os dados fora do ciclo de vida do container.
+      - '127.0.0.1:5438:5432'
     volumes:
-      # Monta o volume nomeado no diretório padrão de dados do PostgreSQL.
-      - postgres_data:/var/lib/postgresql/data
-    # Verifica se o PostgreSQL está pronto para receber conexões.
+      - culturapass_pgdata:/var/lib/postgresql/data
     healthcheck:
-      # Executa o comando oficial de verificação do PostgreSQL.
-      test: ["CMD-SHELL", "pg_isready -U projeto -d projeto"]
-      # Aguarda cinco segundos entre verificações.
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
       interval: 5s
-      # Interrompe uma verificação que demorar mais que cinco segundos.
       timeout: 5s
-      # Tenta cinco vezes antes de marcar o serviço como unhealthy.
-      retries: 5
+      retries: 15
 
-# Declara os volumes nomeados usados pelos serviços.
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+    ports:
+      - '127.0.0.1:5672:5672'
+      - '127.0.0.1:15672:15672'
+    volumes:
+      - culturapass_rabbitdata:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
+      timeout: 10s
+      retries: 15
+
+  migrate:
+    build: ./backend
+    command: ['python', '-m', 'scripts.migrar']
+    restart: 'no'
+    environment: &backend_env
+      DATABASE_URL: postgresql+psycopg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      SECRET_KEY: ${FLASK_SECRET_KEY}
+      SESSION_COOKIE_SECURE: 'false'
+      RABBITMQ_URL: amqp://${RABBIT_USER}:${RABBIT_PASSWORD}@rabbitmq:5672/%2F
+      ADMIN_BOOTSTRAP_EMAIL: ${ADMIN_BOOTSTRAP_EMAIL}
+      ADMIN_BOOTSTRAP_PASSWORD: ${ADMIN_BOOTSTRAP_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    environment: *backend_env
+    ports:
+      - '127.0.0.1:5000:5000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ['CMD', 'python', '-c', 'import urllib.request; urllib.request.urlopen("http://localhost:5000/api/health", timeout=3)']
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+  publicador:
+    build: ./backend
+    command: ['python', '-m', 'workers.publicador']
+    restart: unless-stopped
+    environment: *backend_env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_healthy
+
+  consumidor:
+    build: ./backend
+    command: ['python', '-m', 'workers.consumidor']
+    restart: unless-stopped
+    environment: *backend_env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8080:80'
+    depends_on:
+      api:
+        condition: service_healthy
+
 volumes:
-  # Mantém os dados do PostgreSQL entre reinicializações.
-  postgres_data:
+  culturapass_pgdata:
+  culturapass_rabbitdata:

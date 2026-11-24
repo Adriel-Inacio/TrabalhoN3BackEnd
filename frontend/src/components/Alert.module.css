@@ -1,0 +1,130 @@
+
+.alert {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 8px;
+
+    min-width: 0;
+    overflow: hidden;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.sucesso {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+}
+
+.erro {
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+.entrada {
+    animation: expandir 0.5s ease-out both;
+}
+
+.saida {
+    animation: recolher 0.5s ease-in-out both;
+}
+
+.mensagem {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.fecharButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 28px;
+    height: 28px;
+    padding: 0;
+
+    background-color: transparent;
+    color: inherit;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.fecharButton:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.fecharButton:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.fecharButton:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+@keyframes expandir {
+    from {
+        height: 0;
+        opacity: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-top-width: 0;
+        border-bottom-width: 0;
+    }
+
+    to {
+        height: auto;
+        opacity: 1;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        margin-bottom: 20px;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+    }
+}
+
+@keyframes recolher {
+    from {
+        height: auto;
+        opacity: 1;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        margin-bottom: 20px;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+    }
+
+    to {
+        height: 0;
+        opacity: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-top-width: 0;
+        border-bottom-width: 0;
+    }
+}

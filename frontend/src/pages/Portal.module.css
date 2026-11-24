@@ -1,0 +1,8 @@
+.page { width: 100%; }
+.page h1 { font-size: 27px; margin: 0 0 9px; }
+.page > p { color: #6b7280; margin: 0 0 24px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.card { display: flex; flex-direction: column; gap: 10px; padding: 22px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: #202127; transition: border-color .2s, background-color .2s; }
+.card:hover { border-color: #60a5fa; background: #eff6ff; }
+.card strong { font-size: 17px; }
+.card span { font-size: 14px; color: #6b7280; }

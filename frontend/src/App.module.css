@@ -1,0 +1,21 @@
+.appLayout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.appContent {
+  min-width: 0;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .appLayout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+
+  .appContent {
+    padding: 16px;
+  }
+}
